@@ -1,0 +1,12 @@
+# This is example setting for MCMC fitting of Mocos Sim
+
+
+#population = "poland_v3.jld2"
+param_seed = 0
+
+move_seed = 1234678
+
+#data = "true_trajectory2.jld2"
+
+num_samples = 1000
+

@@ -1,0 +1,20 @@
+name = "MocosSimMCMC"
+uuid = "8a7626b0-ae82-476a-9b2c-c157cea3e8ac"
+authors = ["Tomasz Ożański <tomasz.ozanski@pwr.edu.pl>"]
+version = "0.1.0"
+
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+Kaleido = "caafb194-7e8d-11e9-2724-d5981dd0806d"
+MocosSim = "af72bc66-7bc2-4ee8-90df-e21de508fcd7"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Setfield = "efcf1570-3423-57d1-acb7-fd33fddbac46"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[compat]
+MocosSim = "=0.2.5"
