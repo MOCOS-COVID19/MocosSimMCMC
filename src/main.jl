@@ -24,6 +24,11 @@ function parse_commandline()
       help = "path to file with observed detections"
       required = false
       arg_type = String
+
+    "--global-seed"
+      help = "a seed value that is added to all other seeds"
+      default = 0
+      arg_type = Int
 	end
   parse_args(ARGS, s)
 end
@@ -47,16 +52,18 @@ end
 
 function main()
   cmd_args = parse_commandline()
-  @info "args" cmd_args
   config = merge(TOML.parsefile(cmd_args["config"]), cmd_args)
+  @info "launched" config
+
+  global_seed = config["global-seed"]
 
   daily = load(config["data"], "daily");
   daily7avg = running_average(daily, 7);
 
-  simparams = loadparams(config["population"], get(config, "param_seed", 0))
+  simparams = loadparams(config["population"], get(config, "param_seed", 0) + global_seed)
 
   sampler = Sampler(
-    move_seed=0,
+    move_seed=config["move_seed"] + global_seed,
     simparams=simparams,
     trajectory_error=NormalTrajectoryError(daily7avg, 0.1, 0.1, 0.1, 0.1, 0.1),
     moves=[
@@ -75,7 +82,8 @@ function main()
     initial_fitparams=FitParams(1.35, 0.1, 0.1, 1000, 200, 0.1),
     num_initial=100,
     max_total_detections=10^6,
-    max_daily_detections=5000
+    max_daily_detections=5000,
+    global_seed = global_seed
   );
 
   history = HistoryRecord[]
