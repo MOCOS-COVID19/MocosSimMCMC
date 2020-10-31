@@ -64,6 +64,7 @@ function main()
   config = TOML.parsefile(cmd_args["config"])
   mergearg!(config, cmd_args, "population")
   mergearg!(config, cmd_args, "data")
+  mergearg!(config, cmd_args, "global-seed")
 
   @info "launched" config
 
