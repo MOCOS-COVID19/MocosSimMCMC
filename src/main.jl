@@ -12,14 +12,17 @@ function parse_commandline()
       help = "path to a config file with the parameter settings"
       required = true
       arg_type = String
-    "--output-history-dump"
+
+      "--output-history-dump"
       help = "path where genereated samples are saved"
       required = true
+
       arg_type = String
     "--population"
       help = "path to population in JLD2 format"
       required = false
       arg_type = String
+
     "--data"
       help = "path to file with observed detections"
       required = false
@@ -50,9 +53,18 @@ function loadparams(population_path, params_seed=0)
   );
 end
 
+function mergearg!(config, cmd_args, name)
+  if cmd_args[name] !== nothing
+    config[name] = cmd_args[name]
+  end
+end
+
 function main()
   cmd_args = parse_commandline()
-  config = merge(TOML.parsefile(cmd_args["config"]), cmd_args)
+  config = TOML.parsefile(cmd_args["config"])
+  mergearg!(config, cmd_args, "population")
+  mergearg!(config, cmd_args, "data")
+
   @info "launched" config
 
   global_seed = config["global-seed"]
