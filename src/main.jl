@@ -13,7 +13,7 @@ function parse_commandline()
       required = true
       arg_type = String
 
-      "--output-history-dump"
+      "--output-history-dump", "-o"
       help = "path where genereated samples are saved"
       required = true
 
@@ -83,7 +83,7 @@ function main()
     moves=[
         :b => (rng)->rand(rng, Normal(0, 0.03)),
         :q => (rng)->rand(rng, Normal(0, 0.03)),
-        :mlim => (rng)->rand(rng, Normal(0, 0.03))
+        :c => (rng)->rand(rng, Normal(0, 0.03))
       ],
     fitpriors=FitPriors(
         Uniform(0, 1.35),
@@ -93,10 +93,10 @@ function main()
         Geometric(1/2000),
         Uniform(0, 1)
       ),
-    initial_fitparams=FitParams(1.35, 0.1, 0.1, 1000, 200, 0.1),
-    num_initial=100,
-    max_total_detections=10^6,
-    max_daily_detections=5000,
+    initial_fitparams=FitParams(1.35, 0.1, 0.1, 1000, 200, 1),
+    num_initial=config["num_initial"],
+    max_total_detections=config["max_total_detections"],
+    max_daily_detections=config["max_daily_detections"],
     global_seed = global_seed
   );
 

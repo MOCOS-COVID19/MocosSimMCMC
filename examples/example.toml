@@ -8,5 +8,8 @@ move_seed = 1234678
 
 #data = "true_trajectory2.jld2"
 
-num_samples = 1000
+num_samples = 100
+max_daily_detections = 25000
+max_total_detections = 1000000
 
+num_initial = 100
