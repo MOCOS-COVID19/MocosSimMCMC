@@ -41,7 +41,7 @@ function loadparams(population_path::AbstractString, params_seed::Integer=0)
   params_seed = 0
   rng = Random.MersenneTwister(params_seed)
 
-  simparams = MocosSim.load_params(
+  MocosSim.load_params(
     population=individuals_df,
     infection_modulation_name="TanhModulation",
     infection_modulation_params=(scale=2000, loc=10000, weight_detected=1, weight_deaths=0, limit_value=0.6),
@@ -59,6 +59,8 @@ function mergearg!(config, cmd_args, name)
   end
 end
 
+loadmoves(moves_config::Dict{String,T} where T) = map( ((k,v),)-> Symbol(k) => (rng) ->rand(rng, Normal(0,v)), collect(moves_config))
+
 function main()
   cmd_args = parse_commandline()
   config = TOML.parsefile(cmd_args["config"])
@@ -66,7 +68,6 @@ function main()
   mergearg!(config, cmd_args, "population")
   mergearg!(config, cmd_args, "data")
   mergearg!(config, cmd_args, "output-history-dump")
-  mergearg!(config, cmd_args, "param-seed")
   mergearg!(config, cmd_args, "global-seed")
 
   @info "launched" config
@@ -82,11 +83,7 @@ function main()
     move_seed=config["move_seed"] + global_seed,
     simparams=simparams,
     trajectory_error=NormalTrajectoryError(daily7avg, 0.1, 0.1, 0.1, 0.1, 0.1),
-    moves=[
-        :b => (rng)->rand(rng, Normal(0, 0.03)),
-        :q => (rng)->rand(rng, Normal(0, 0.03)),
-        :c => (rng)->rand(rng, Normal(0, 0.03))
-      ],
+    moves=loadmoves(config["moves"]),
     fitpriors=FitPriors(
         Uniform(0, 1.35),
         Uniform(0, 1),

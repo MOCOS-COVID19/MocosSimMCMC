@@ -17,5 +17,3 @@ function (self::Simulator)(fitparams::FitParams, seed::Integer, num_initial::Int
   MocosSim.simulate!(self.simstate, self.simparams, self.callback)
   MocosSim.dailydetections(self.simstate.stats)
 end
-
-#88borwziq
