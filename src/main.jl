@@ -30,13 +30,13 @@ function parse_commandline()
 
     "--global-seed"
       help = "a number value that is added to the move seed and simulation seed"
-      default = 0
+      default = UInt(0)
       arg_type = UInt
 	end
   parse_args(ARGS, s)
 end
 
-function loadparams(population_path, params_seed=0)
+function loadparams(population_path::AbstractString, params_seed::Integer=0)
   individuals_df = load(population_path, "individuals_df");
   params_seed = 0
   rng = Random.MersenneTwister(params_seed)
