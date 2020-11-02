@@ -1,7 +1,7 @@
 import Base.push!
 
 Base.@kwdef struct HistoryRecord
-  seed::Int
+  seed::UInt
   accepted::Bool
   fitparams::FitParams
   moveparam::Symbol

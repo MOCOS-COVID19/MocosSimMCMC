@@ -29,9 +29,9 @@ function parse_commandline()
       arg_type = String
 
     "--global-seed"
-      help = "a seed value that is added to all other seeds"
+      help = "a number value that is added to the move seed and simulation seed"
       default = 0
-      arg_type = Int
+      arg_type = UInt
 	end
   parse_args(ARGS, s)
 end
@@ -62,10 +62,12 @@ end
 function main()
   cmd_args = parse_commandline()
   config = TOML.parsefile(cmd_args["config"])
+
   mergearg!(config, cmd_args, "population")
   mergearg!(config, cmd_args, "data")
-  mergearg!(config, cmd_args, "global-seed")
   mergearg!(config, cmd_args, "output-history-dump")
+  mergearg!(config, cmd_args, "param-seed")
+  mergearg!(config, cmd_args, "global-seed")
 
   @info "launched" config
 
@@ -74,7 +76,7 @@ function main()
   daily = load(config["data"], "daily");
   daily7avg = running_average(daily, 7);
 
-  simparams = loadparams(config["population"], get(config, "param_seed", 0) + global_seed)
+  simparams = loadparams(config["population"], get(config, "param_seed", 0))
 
   sampler = Sampler(
     move_seed=config["move_seed"] + global_seed,

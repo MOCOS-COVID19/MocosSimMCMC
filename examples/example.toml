@@ -4,7 +4,7 @@
 #population = "poland_v3.jld2"
 param_seed = 0
 
-move_seed = 1234678
+move_seed = 0
 
 #data = "true_trajectory2.jld2"
 

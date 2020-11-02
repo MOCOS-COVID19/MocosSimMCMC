@@ -7,11 +7,11 @@ mutable struct Sampler
   movesampler::MoveProposer
   trajectoryerror::TrajectoryError
 
-  iterno::Int
+  iterno::UInt
   accepted_fitparams::FitParams
   ll_last::Float64
 
-  global_seed::Int
+  global_seed::UInt
 
   Sampler(;
     move_seed::Integer, simparams::MocosSim.SimParams, trajectory_error::TrajectoryError,
@@ -22,10 +22,14 @@ mutable struct Sampler
     MersenneTwister(move_seed),
     Simulator(simparams, max_total_detections=max_total_detections, max_daily_detections=max_daily_detections),
     num_initial,
+
     fitpriors,
     MoveProposer(moves),
     trajectory_error,
-    0, initial_fitparams, -Inf
+
+    0, initial_fitparams, -Inf,
+
+    global_seed
   )
 end
 
