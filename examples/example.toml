@@ -14,7 +14,17 @@ max_total_detections = 1000000
 
 num_initial = 100
 
+[initials]
+c = 1.35
+b = 0.1
+q = 0.1
+mloc = 2000
+msca = 100
+mlim = 1.0
+
 [moves]
+c = 0.03
 b = 0.03
 q = 0.03
-c = 0.03
+# the not given parameters are frozen
+

@@ -59,7 +59,9 @@ function mergearg!(config, cmd_args, name)
   end
 end
 
-loadmoves(moves_config::Dict{String,T} where T) = map( ((k,v),)-> Symbol(k) => (rng) ->rand(rng, Normal(0,v)), collect(moves_config))
+loadinitials(initials_config::Dict{String,T} where T) = FitParams(;map( ((k,v),)-> Symbol(k) => v, collect(initials_config))...)
+
+loadmoves(moves_config::Dict{String,T} where T) = map( (((k,v),)-> Symbol(k) => ((rng) ->rand(rng, Normal(0,v)))), collect(moves_config))
 
 function main()
   cmd_args = parse_commandline()
@@ -92,7 +94,7 @@ function main()
         Geometric(1/2000),
         Uniform(0, 1)
       ),
-    initial_fitparams=FitParams(1.35, 0.1, 0.1, 1000, 200, 1),
+    initial_fitparams=loadinitials(config["initials"]),
     num_initial=config["num_initial"],
     max_total_detections=config["max_total_detections"],
     max_daily_detections=config["max_daily_detections"],

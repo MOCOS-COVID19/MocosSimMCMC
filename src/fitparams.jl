@@ -1,4 +1,4 @@
-struct FitParams
+Base.@kwdef struct FitParams
   c::Float64
   b::Float64
   q::Float64
