@@ -34,8 +34,8 @@ struct FitPriors
   c::Distribution{Univariate, Continuous}
   b::Distribution{Univariate, Continuous}
   q::Distribution{Univariate, Continuous}
-  mloc::Distribution{Univariate, Discrete}
-  msca::Distribution{Univariate, Discrete}
+  mloc::Distribution{Univariate, Continuous}
+  msca::Distribution{Univariate, Continuous}
   mlim::Distribution{Univariate, Continuous}
 end
 

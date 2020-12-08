@@ -28,7 +28,7 @@ function history2df(history::AbstractVector{HistoryRecord})
   for (i,fieldname) in enumerate(fieldnames(FitParams))
     column = getproperty.(fp, fieldname)
     pos = 3 + i
-    insert!(df, pos, column, fieldname)
+    insertcols!(df, pos, fieldname => column)
   end
   df[:, :trajectory] = getproperty.(history, :trajectory)
   df

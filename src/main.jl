@@ -95,8 +95,8 @@ function main()
         Uniform(0, 1.35),
         Uniform(0, 1),
         Uniform(0, 1),
-        Geometric(1/10000),
-        Geometric(1/2000),
+        Exponential(10000),
+        Exponential(2000),
         Uniform(0, 1)
       ),
     initial_fitparams=initial_fitparams,
