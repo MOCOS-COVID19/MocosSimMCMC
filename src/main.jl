@@ -1,6 +1,7 @@
 using TOML
 using ArgParse
 using DataFrames
+using Distributions
 using ProgressMeter
 using JLD2
 using FileIO
@@ -61,7 +62,9 @@ end
 
 loadinitials(initials_config::Dict{String,T} where T) = FitParams(;map( ((k,v),)-> Symbol(k) => v, collect(initials_config))...)
 
-loadmoves(moves_config::Dict{String,T} where T) = map( (((k,v),)-> Symbol(k) => ((rng) ->rand(rng, Normal(0,v)))), collect(moves_config))
+loadmoves(moves_config::Dict{String,T} where T)::Array{Pair{Symbol, Function}} = map(collect(moves_config)) do (k,v)
+  Symbol(k) => (rng->rand(rng, Normal(0,v)))
+end
 
 function main()
   cmd_args = parse_commandline()
@@ -79,13 +82,15 @@ function main()
   daily = load(config["data"], "daily");
   daily7avg = running_average(daily, 7);
 
+  moves = loadmoves(config["moves"])
+  initial_fitparams = loadinitials(config["initials"])
   simparams = loadparams(config["population"], get(config, "param_seed", 0))
 
   sampler = Sampler(
     move_seed=config["move_seed"] + global_seed,
     simparams=simparams,
     trajectory_error=NormalTrajectoryError(daily7avg, 0.1, 0.1, 0.1, 0.1, 0.1),
-    moves=loadmoves(config["moves"]),
+    moves=moves,
     fitpriors=FitPriors(
         Uniform(0, 1.35),
         Uniform(0, 1),
@@ -94,7 +99,7 @@ function main()
         Geometric(1/2000),
         Uniform(0, 1)
       ),
-    initial_fitparams=loadinitials(config["initials"]),
+    initial_fitparams=initial_fitparams,
     num_initial=config["num_initial"],
     max_total_detections=config["max_total_detections"],
     max_daily_detections=config["max_daily_detections"],

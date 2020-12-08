@@ -1,12 +1,9 @@
-# This is example setting for MCMC fitting of Mocos Sim
+# This is an example setting for MCMC fitting of Mocos Sim
+#data = "true_trajectory2.jld2" # or provide --data arg to cli.jl
+#population = "poland_v3.jld2"  # or provide -- population arg to cli.jl
 
-
-#population = "poland_v3.jld2"
 param_seed = 0
-
 move_seed = 0
-
-#data = "true_trajectory2.jld2"
 
 num_samples = 100
 max_daily_detections = 25000

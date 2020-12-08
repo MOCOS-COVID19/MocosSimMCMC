@@ -2,8 +2,8 @@ Base.@kwdef struct FitParams
   c::Float64
   b::Float64
   q::Float64
-  mloc::Int64
-  msca::Int64
+  mloc::Float64
+  msca::Float64
   mlim::Float64
 end
 
